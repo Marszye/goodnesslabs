@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Goodness Labs</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --cream:#F5F0EB;
+  --cream2:#EAE5DF;
+  --forest:#0A2E1A;
+  --fmid:#0F3D22;
+  --flt:#1A5C36;
+  --mint:#22A05A;
+  --ink:#1A1A18;
+  --ink2:#4A4845;
+  --ink3:#8A8784;
+  --bd:rgba(26,26,24,0.09);
+  --bd2:rgba(26,26,24,0.14);
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+
+/* ── REVEAL ── */
+.r{opacity:0;transform:translateY(24px);transition:opacity .65s var(--ease),transform .65s var(--ease);}
+.r.in{opacity:1;transform:none;}
+.d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}.d4{transition-delay:.32s;}.d5{transition-delay:.4s;}.d6{transition-delay:.48s;}
+
+/* ── NAV ── */
+nav{
+  height:66px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;border-bottom:1px solid var(--bd);
+  position:sticky;top:0;z-index:100;
+  background:rgba(245,240,235,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  transition:border-color .3s,box-shadow .3s;
+}
+nav.scrolled{box-shadow:0 1px 32px rgba(0,0,0,0.07);border-color:var(--bd2);}
+.nav-logo img{height:28px;width:auto;filter:brightness(0);transition:opacity .2s;cursor:pointer;}
+.nav-logo img:hover{opacity:.6;}
+.nl{display:flex;align-items:center;gap:2.25rem;}
+.nl a{font-size:14px;color:var(--ink2);transition:color .15s;position:relative;padding-bottom:2px;}
+.nl a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--forest);transition:width .22s;}
+.nl a:hover{color:var(--ink);}.nl a:hover::after{width:100%;}
+.nav-btn{background:var(--forest);color:#fff;font-size:13px;font-weight:600;padding:9px 20px;border-radius:100px;border:none;cursor:pointer;font-family:var(--sans);letter-spacing:.02em;transition:background .2s,transform .15s;}
+.nav-btn:hover{background:var(--fmid);transform:scale(1.03);}
+
+/* ── HERO ── */
+.hero{padding:140px 2.5rem 0;position:relative;overflow:hidden;}
+.hero::after{
+  content:'';position:absolute;top:-300px;right:-300px;
+  width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(circle,rgba(10,46,26,0.055) 0%,transparent 60%);
+  pointer-events:none;
+}
+.hero-w{max-width:1160px;margin:0 auto;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--flt);margin-bottom:36px;
+}
+.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--flt);}
+h1.hero-h{
+  font-family:var(--serif);
+  font-size:clamp(52px,8vw,108px);
+  font-weight:400;line-height:1.01;
+  color:var(--ink);letter-spacing:-.045em;
+  max-width:860px;margin-bottom:0;
+}
+h1.hero-h em{font-style:italic;color:var(--flt);}
+.hero-rule{
+  display:grid;grid-template-columns:1fr 1fr;gap:72px;
+  align-items:end;margin-top:80px;padding-top:52px;
+  border-top:1px solid var(--bd);
+}
+.hero-sub{font-size:16px;color:var(--ink2);line-height:1.85;max-width:480px;}
+.hero-ctas{display:flex;gap:12px;justify-content:flex-end;padding-bottom:2px;}
+.btn-primary{
+  background:var(--forest);color:#fff;font-size:14px;font-weight:700;
+  padding:13px 26px;border-radius:100px;border:none;cursor:pointer;font-family:var(--sans);
+  box-shadow:0 4px 20px rgba(10,46,26,0.22);
+  transition:background .2s,transform .18s,box-shadow .2s;
+}
+.btn-primary:hover{background:var(--fmid);transform:translateY(-2px);box-shadow:0 8px 28px rgba(10,46,26,0.32);}
+.btn-secondary{
+  background:transparent;color:var(--ink);font-size:14px;font-weight:500;
+  padding:12px 26px;border-radius:100px;border:1.5px solid var(--bd2);
+  cursor:pointer;font-family:var(--sans);transition:all .2s;
+}
+.btn-secondary:hover{border-color:var(--forest);color:var(--forest);background:rgba(10,46,26,0.04);}
+
+/* ── HERO STATS ── */
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  margin-top:64px;
+}
+.hs{
+  background:var(--forest);border-radius:14px;padding:2rem 1.75rem;
+  transition:transform .25s var(--ease),background .2s;cursor:default;
+}
+.hs:hover{background:var(--fmid);transform:translateY(-4px);}
+.hs-n{font-family:var(--serif);font-size:clamp(28px,3.8vw,46px);font-weight:400;color:#fff;line-height:1;margin-bottom:8px;letter-spacing:-.03em;}
+.hs-l{font-size:13px;color:rgba(255,255,255,0.42);line-height:1.4;}
+.hs-s{font-size:11px;color:rgba(255,255,255,0.22);margin-top:3px;}
+
+/* ── SHARED ── */
+.s{padding:96px 2.5rem;border-bottom:1px solid var(--bd);}
+.s.alt{background:var(--cream2);}
+.s.dk{background:var(--forest);border-color:rgba(255,255,255,0.07);}
+.s.near-blk{background:#111;}
+.w{max-width:1160px;margin:0 auto;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--forest);margin-bottom:20px;
+}
+.eyebrow::before{content:'';width:16px;height:1px;background:var(--forest);}
+.eyebrow.lt{color:rgba(255,255,255,0.32);}
+.eyebrow.lt::before{background:rgba(255,255,255,0.32);}
+h2.sh{font-family:var(--serif);font-size:clamp(32px,4vw,56px);font-weight:400;line-height:1.08;letter-spacing:-.03em;color:var(--ink);}
+h2.sh.lt{color:#fff;}
+
+/* ── THESIS ── */
+.thesis-layout{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;}
+.thesis-visual-card{
+  background:var(--forest);border-radius:24px;
+  aspect-ratio:4/3;display:flex;align-items:flex-end;
+  padding:2.5rem;overflow:hidden;position:relative;
+  transition:transform .35s cubic-bezier(.22,.61,.36,1);
+}
+.thesis-visual-card:hover{transform:scale(1.02);}
+.tvc-orb{position:absolute;top:-80px;right:-80px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(34,160,90,0.38) 0%,transparent 65%);pointer-events:none;}
+.tvc-orb2{position:absolute;bottom:-60px;left:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(26,92,54,0.28) 0%,transparent 65%);pointer-events:none;}
+.tvc-quote{
+  font-family:var(--serif);font-size:clamp(20px,2.4vw,28px);font-weight:400;
+  color:rgba(255,255,255,0.92);line-height:1.35;letter-spacing:-.02em;
+  position:relative;z-index:1;font-style:italic;
+}
+.thesis-right{padding-top:8px;}
+.thesis-right h2{margin-bottom:24px;}
+.thesis-right p{font-size:17px;color:var(--ink2);line-height:1.85;}
+.thesis-right p+p{margin-top:14px;}
+
+/* ── BRANDS ── */
+.brands-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.bc{
+  background:#fff;border:1px solid var(--bd);border-radius:18px;
+  padding:2.25rem;display:flex;flex-direction:column;
+  box-shadow:0 1px 4px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.03);
+  transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .2s;
+  cursor:default;
+}
+.bc:hover{
+  transform:translateY(-7px) scale(1.008);
+  box-shadow:0 20px 52px rgba(0,0,0,0.1),0 6px 16px rgba(0,0,0,0.06);
+  border-color:rgba(10,46,26,0.18);
+}
+.bc-label{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--flt);margin-bottom:16px;
+}
+.bc-label::before{content:'';width:14px;height:1px;background:var(--flt);}
+.bc-hook{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--ink);line-height:1.35;margin-bottom:24px;flex:1;letter-spacing:-.01em;}
+.bc-url{font-size:13px;color:var(--ink3);transition:color .15s;}
+.bc-url:hover{color:var(--forest);}
+
+/* ── WHY ── */
+.why-layout{display:grid;grid-template-columns:5fr 7fr;gap:96px;align-items:start;}
+.why-anchor{position:sticky;top:88px;}
+.why-anchor h2{margin-bottom:16px;}
+.why-anchor p{font-size:15px;color:var(--ink2);line-height:1.78;}
+.why-rows{}
+.wr{
+  padding:22px 0;border-bottom:1px solid var(--bd);
+  cursor:default;position:relative;
+}
+.wr:first-child{padding-top:0;}
+.wr:last-child{border-bottom:none;padding-bottom:0;}
+.wr-inner{
+  display:flex;align-items:baseline;gap:14px;
+  padding:10px 12px;border-radius:10px;margin:-10px -12px;
+  transition:background .2s;
+}
+.wr:hover .wr-inner{background:rgba(10,46,26,0.04);}
+.wr-num{font-family:var(--serif);font-size:13px;color:var(--ink3);font-weight:400;flex-shrink:0;width:20px;}
+.wr-text{}
+.wr-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:5px;letter-spacing:-.01em;}
+.wr-body{font-size:14px;color:var(--ink2);line-height:1.75;}
+
+/* ── HEALTHCARE ── */
+.hc-top{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:end;margin-bottom:72px;}
+.hc-h{font-family:var(--serif);font-size:clamp(30px,4vw,52px);font-weight:400;color:#fff;line-height:1.1;letter-spacing:-.03em;}
+.hc-sub{font-size:16px;color:rgba(255,255,255,0.38);line-height:1.85;padding-bottom:2px;}
+.hc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.07);border-radius:16px;overflow:hidden;}
+.ds{background:rgba(255,255,255,0.03);padding:2.25rem;transition:background .2s;cursor:default;}
+.ds:hover{background:rgba(255,255,255,0.06);}
+.ds-n{font-family:var(--serif);font-size:clamp(26px,3.2vw,42px);font-weight:400;color:#fff;line-height:1;margin-bottom:10px;letter-spacing:-.03em;}
+.ds-l{font-size:14px;color:rgba(255,255,255,0.35);line-height:1.6;}
+
+/* ── TEAM ── */
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:20px;overflow:hidden;}
+.tm-card{
+  background:var(--cream);padding:2rem;
+  display:flex;flex-direction:column;gap:0;
+  transition:background .18s;cursor:default;position:relative;
+}
+.tm-card:hover{background:#fff;}
+.tm-card.founder{background:var(--forest);grid-column:span 1;}
+.tm-card.founder:hover{background:var(--fmid);}
+.tm-init{width:40px;height:40px;border-radius:50%;border:1px solid var(--bd2);background:var(--cream2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:13px;color:var(--ink2);margin-bottom:16px;}
+.tm-card.founder .tm-init{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.18);color:#fff;}
+.tm-name{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:2px;letter-spacing:-.01em;}
+.tm-card.founder .tm-name{color:#fff;font-family:var(--serif);font-size:18px;font-weight:400;}
+.tm-role{font-size:13px;color:var(--ink2);margin-bottom:0;}
+.tm-card.founder .tm-role{color:rgba(255,255,255,0.42);}
+.tm-focus{font-size:12px;color:var(--ink3);margin-top:3px;}
+.tm-card.founder .tm-focus{color:rgba(255,255,255,0.28);}
+.tm-email{font-size:12px;color:var(--ink3);display:block;margin-top:8px;transition:color .15s;}
+.tm-email:hover{color:var(--forest);}
+.tm-card.founder .tm-email{color:rgba(255,255,255,0.28);}
+.tm-card.founder .tm-email:hover{color:rgba(255,255,255,0.7);}
+.cred{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;background:rgba(10,46,26,0.08);color:var(--forest);margin-left:6px;vertical-align:middle;letter-spacing:.04em;}
+.tm-card.founder .cred{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);}
+
+/* ── INSIDER ── */
+.ins-layout{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;}
+.ins-ey{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.ins-ey::before{content:'';width:16px;height:1px;background:rgba(255,255,255,0.28);}
+.ins-h{font-family:var(--serif);font-size:clamp(30px,4vw,52px);font-weight:400;color:#fff;line-height:1.08;margin-bottom:16px;letter-spacing:-.03em;}
+.ins-sub{font-size:16px;color:rgba(255,255,255,0.35);line-height:1.85;margin-bottom:28px;}
+.ins-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+.ins-chip{
+  font-size:12px;padding:6px 14px;border-radius:100px;letter-spacing:.02em;
+  border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.35);
+  transition:all .2s;cursor:default;
+}
+.ins-chip:hover{border-color:rgba(255,255,255,0.38);color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.06);}
+.ins-pub{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.18);}
+.ins-form-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:2.5rem;transition:background .2s,border-color .2s;}
+.ins-form-card:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.18);}
+.ins-fh{font-family:var(--serif);font-size:22px;font-weight:400;color:#fff;margin-bottom:6px;letter-spacing:-.02em;}
+.ins-fs{font-size:14px;color:rgba(255,255,255,0.28);margin-bottom:22px;line-height:1.55;}
+.ins-inp{width:100%;padding:12px 16px;font-size:14px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.06);color:#fff;font-family:var(--sans);margin-bottom:10px;transition:border-color .2s,background .2s;}
+.ins-inp::placeholder{color:rgba(255,255,255,0.18);}
+.ins-inp:focus{outline:none;border-color:var(--mint);background:rgba(255,255,255,0.09);}
+.ins-sbtn{width:100%;padding:13px;font-size:14px;font-weight:600;border:none;border-radius:10px;background:var(--mint);color:#fff;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s,box-shadow .2s;}
+.ins-sbtn:hover{background:var(--flt);transform:translateY(-1px);box-shadow:0 6px 20px rgba(34,160,90,0.3);}
+.ins-fine{font-size:11px;color:rgba(255,255,255,0.14);text-align:center;margin-top:10px;}
+.ins-ok{display:none;text-align:center;padding:1.5rem 0;}
+.ins-ok-h{font-size:16px;font-weight:600;color:#fff;margin-bottom:5px;}
+.ins-ok-p{font-size:13px;color:rgba(255,255,255,0.3);}
+
+/* ── WORK ── */
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px;}
+.wc{
+  background:#fff;border:1px solid var(--bd);border-radius:18px;
+  padding:2.5rem;display:flex;flex-direction:column;
+  box-shadow:0 1px 4px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.03);
+  transition:transform .28s var(--ease),box-shadow .28s,border-color .2s;cursor:default;
+}
+.wc:hover{transform:translateY(-6px);box-shadow:0 20px 52px rgba(0,0,0,0.1),0 6px 18px rgba(0,0,0,0.06);border-color:rgba(10,46,26,0.18);}
+.wc-ey{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--flt);margin-bottom:20px;display:flex;align-items:center;gap:7px;}
+.wc-ey::before{content:'';width:14px;height:1px;background:var(--flt);}
+.wc-h{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink);margin-bottom:10px;line-height:1.3;letter-spacing:-.01em;}
+.wc-b{font-size:14px;color:var(--ink2);line-height:1.78;margin-bottom:32px;flex:1;}
+.wc-btn{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--forest);cursor:pointer;background:none;border:none;font-family:var(--sans);padding:0;transition:gap .2s;align-self:flex-start;}
+.wc-btn:hover{gap:11px;}
+.wc-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ── CTA ── */
+.cta{
+  background:var(--forest);padding:140px 2.5rem;
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(circle,rgba(34,160,90,0.18) 0%,transparent 55%);
+  pointer-events:none;
+}
+.cta-inner{max-width:700px;margin:0 auto;position:relative;z-index:1;}
+.cta-h{
+  font-family:var(--serif);
+  font-size:clamp(40px,6.5vw,80px);
+  font-weight:400;color:#fff;line-height:1.04;
+  letter-spacing:-.04em;margin-bottom:52px;
+}
+.cta-h em{font-style:italic;color:rgba(255,255,255,0.3);}
+.btn-cream{
+  background:var(--cream);color:var(--forest);font-size:15px;font-weight:700;
+  padding:14px 32px;border-radius:100px;border:none;cursor:pointer;
+  font-family:var(--sans);box-shadow:0 4px 20px rgba(0,0,0,0.22);
+  transition:background .2s,transform .18s,box-shadow .2s;
+}
+.btn-cream:hover{background:#fff;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.3);}
+
+/* ── FOOTER ── */
+footer{background:#111;padding:80px 2.5rem 52px;}
+.foot-w{max-width:1160px;margin:0 auto;}
+.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;padding-bottom:52px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.foot-logo{margin-bottom:20px;}
+.foot-tag{font-size:14px;color:rgba(255,255,255,0.28);line-height:1.75;max-width:240px;margin-bottom:22px;}
+.foot-link{font-size:13px;color:rgba(255,255,255,0.28);display:block;margin-bottom:5px;transition:color .15s;}
+.foot-link:hover{color:rgba(255,255,255,0.72);}
+.foot-locs{font-size:13px;color:rgba(255,255,255,0.16);}
+.fc h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.18);margin-bottom:18px;}
+.fc a{display:block;font-size:14px;color:rgba(255,255,255,0.38);margin-bottom:10px;transition:color .15s;}
+.fc a:hover{color:#fff;}
+.foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:28px;flex-wrap:wrap;gap:8px;}
+.fcopy{font-size:13px;color:rgba(255,255,255,0.18);}
+
+/* ── MODALS ── */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:200;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .22s;}
+.ov.open{opacity:1;pointer-events:all;}
+.modal{background:var(--cream);border-radius:24px;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;box-shadow:0 48px 120px rgba(0,0,0,0.4);transform:translateY(28px) scale(.98);opacity:0;transition:transform .32s var(--ease),opacity .32s;}
+.ov.open .modal{transform:translateY(0) scale(1);opacity:1;}
+.mh{padding:2.5rem;border-radius:24px 24px 0 0;position:relative;}
+.mh.dk{background:var(--forest);}
+.mh.lt{background:var(--cream);border-bottom:1px solid var(--bd);}
+.mcl{position:absolute;top:1.25rem;right:1.25rem;width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;font-family:var(--sans);transition:background .15s;}
+.mh.dk .mcl{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);}
+.mh.dk .mcl:hover{background:rgba(255,255,255,0.15);color:#fff;}
+.mh.lt .mcl{background:var(--cream2);color:var(--ink2);}
+.mh.lt .mcl:hover{background:var(--bd);}
+.mey{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+.mh.dk .mey{color:rgba(255,255,255,0.25);}
+.mh.lt .mey{color:var(--forest);}
+.mt{font-family:var(--serif);font-size:24px;font-weight:400;margin-bottom:8px;letter-spacing:-.02em;}
+.mh.dk .mt{color:#fff;}
+.mh.lt .mt{color:var(--ink);}
+.ms{font-size:14px;line-height:1.65;}
+.mh.dk .ms{color:rgba(255,255,255,0.38);}
+.mh.lt .ms{color:var(--ink2);}
+.mled{display:flex;align-items:center;gap:9px;margin-top:18px;}
+.mav{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;}
+.mldt{font-size:12px;color:rgba(255,255,255,0.3);}
+.mldn{font-weight:600;color:rgba(255,255,255,0.68);}
+.mb{padding:2rem 2.5rem;}
+.fg{margin-bottom:1.1rem;}
+.fl{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px;display:block;}
+input[type=text],input[type=email],select,textarea{width:100%;padding:12px 16px;font-size:14px;border:1px solid var(--bd2);border-radius:12px;background:#fff;color:var(--ink);font-family:var(--sans);transition:border-color .15s,box-shadow .15s;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--forest);box-shadow:0 0 0 3px rgba(10,46,26,0.08);}
+textarea{resize:vertical;min-height:90px;line-height:1.65;}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238A8784' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;cursor:pointer;}
+.mf{padding:1.5rem 2.5rem;border-top:1px solid var(--bd);background:var(--cream2);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;border-radius:0 0 24px 24px;}
+.mfn{font-size:12px;color:var(--ink3);}
+.mbtn{font-size:14px;font-weight:600;padding:12px 28px;border-radius:100px;border:none;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s;}
+.mbtn.acc{background:var(--forest);color:#fff;}
+.mbtn.acc:hover{background:var(--fmid);transform:scale(1.03);}
+.mok{display:none;padding:4rem 2.5rem;text-align:center;}
+.mok-ic{width:52px;height:52px;border-radius:50%;background:rgba(10,46,26,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:20px;}
+.mok-h{font-family:var(--serif);font-size:24px;font-weight:400;color:var(--ink);margin-bottom:8px;letter-spacing:-.02em;}
+.mok-p{font-size:15px;color:var(--ink2);line-height:1.7;max-width:300px;margin:0 auto;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  nav .nl{display:none;}
+  nav{padding:0 1.5rem;}
+  .hero,.s,.cta,footer{padding-left:1.5rem;padding-right:1.5rem;}
+  .hero{padding-top:88px;}
+  .hero-rule,.thesis-layout,.why-layout,.hc-top,.ins-layout{grid-template-columns:1fr;gap:48px;}
+  .brands-grid,.work-grid{grid-template-columns:1fr;}
+  .hero-stats{grid-template-columns:1fr 1fr;gap:8px;}
+  .hc-stats{grid-template-columns:1fr 1fr;}
+  .team-grid{grid-template-columns:1fr 1fr;}
+  .foot-top{grid-template-columns:1fr;gap:2.5rem;}
+  .why-anchor{position:static;}
+  .hero-ctas{justify-content:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">
+    <img src="data:image/avif;base64,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" alt="Goodness Labs" style="height:28px;width:auto;display:block;filter:brightness(0);"/>
+  </div>
+  <div class="nl">
+    <a href="#brands">Portfolio</a>
+    <a href="#insider">Insider</a>
+    <a href="#team">Team</a>
+    <a href="#work">Work With Us</a>
+  </div>
+  <button class="nav-btn" onclick="openModal('enq')">Let's Talk</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-w">
+    <div class="hero-eyebrow r">Venture Studio</div>
+    <h1 class="hero-h r d1">We build brands<br>that become <em>habits.</em></h1>
+    <div class="hero-rule r d2">
+      <p class="hero-sub">Goodness Labs is a venture studio building and owning consumer health, beauty and lifestyle brands across Australia, Singapore and the United States. We use AI, partnerships and consumer habit insight to scale brands in high-repeat categories.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="document.getElementById('brands').scrollIntoView({behavior:'smooth'})">Our Brands</button>
+        <button class="btn-secondary" onclick="openModal('acc')">Work With Us</button>
+      </div>
+    </div>
+  </div>
+  <div style="padding:56px 2.5rem 0;">
+    <div class="hero-stats w r d3">
+      <div class="hs"><div class="hs-n">2023</div><div class="hs-l">Founded</div></div>
+      <div class="hs"><div class="hs-n">2M+</div><div class="hs-l">Customers reached</div></div>
+      <div class="hs"><div class="hs-n">6+</div><div class="hs-l">Brands</div></div>
+      <div class="hs"><div class="hs-n">3</div><div class="hs-l">Core markets</div><div class="hs-s">Australia · Singapore · United States</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- THESIS -->
+<div class="s">
+  <div class="w">
+    <div class="thesis-layout">
+      <div class="r">
+        <div class="thesis-visual-card">
+          <div class="tvc-orb"></div><div class="tvc-orb2"></div>
+          <div class="tvc-quote">"The best brands become part of how people live."</div>
+        </div>
+      </div>
+      <div class="thesis-right r d2">
+        <div class="eyebrow">Our thesis</div>
+        <h2 class="sh" style="margin-bottom:24px;">People return to brands that solve problems they live with every day.</h2>
+        <p>We focus on health, beauty and lifestyle categories where the need is persistent, the purchase is repeated and trust compounds over time.</p>
+        <p>Goodness Labs builds in those categories — with AI, healthcare access and shared infrastructure that most consumer brands cannot build alone.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BRANDS -->
+<div class="s alt" id="brands">
+  <div class="w">
+    <div class="eyebrow r">Our portfolio</div>
+    <h2 class="sh r d1" style="margin-bottom:48px;">Brands customers love.</h2>
+    <div class="brands-grid">
+      <div class="bc r d1"><div class="bc-label">KetoPal</div><div class="bc-hook">Keto weight loss people can actually stick to.</div><a class="bc-url" href="https://ketopal.com" target="_blank">ketopal.com →</a></div>
+      <div class="bc r d2"><div class="bc-label">Femmy</div><div class="bc-hook">An AI-powered women's health companion, from symptoms to care.</div><a class="bc-url" href="https://femmyhealth.com" target="_blank">femmyhealth.com →</a></div>
+      <div class="bc r d3"><div class="bc-label">Zeutral</div><div class="bc-hook">Everyday, zero-calorie performance hydration for people who move.</div><a class="bc-url" href="https://zeutral.com" target="_blank">zeutral.com →</a></div>
+      <div class="bc r d4"><div class="bc-label">Dermavol</div><div class="bc-hook">Precision prescription skincare, without the guesswork.</div><a class="bc-url" href="https://dermavol.com" target="_blank">dermavol.com →</a></div>
+      <div class="bc r d5"><div class="bc-label">Birchu</div><div class="bc-hook">SPF for women who take anti-ageing skincare seriously.</div><a class="bc-url" href="https://birchu.com" target="_blank">birchu.com →</a></div>
+      <div class="bc r d6"><div class="bc-label">Keto Australia</div><div class="bc-hook">Australia's trusted home for keto weight loss.</div><a class="bc-url" href="https://keto.com.au" target="_blank">keto.com.au →</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY -->
+<div class="s" id="why">
+  <div class="w">
+    <div class="why-layout">
+      <div class="why-anchor r">
+        <div class="eyebrow">Why Goodness wins</div>
+        <h2 class="sh" style="margin-bottom:16px;">How we build differently.</h2>
+        <p>Built around habits, powered by AI and backed by infrastructure most consumer brands can't access alone.</p>
+      </div>
+      <div class="why-rows r d2">
+        <div class="wr"><div class="wr-inner"><div class="wr-num">01</div><div class="wr-text"><div class="wr-title">We build around repeat behaviour.</div><div class="wr-body">Customers return when a brand solves a problem they keep living with.</div></div></div></div>
+        <div class="wr"><div class="wr-inner"><div class="wr-num">02</div><div class="wr-text"><div class="wr-title">We use AI to make brands more useful.</div><div class="wr-body">AI powers coaching, personalisation, support, recommendations and faster operations across the portfolio.</div></div></div></div>
+        <div class="wr"><div class="wr-inner"><div class="wr-num">03</div><div class="wr-text"><div class="wr-title">We partner for speed and scale.</div><div class="wr-body">We use specialist partners across healthcare, pharmacy, diagnostics, manufacturing and fulfilment.</div></div></div></div>
+        <div class="wr"><div class="wr-inner"><div class="wr-num">04</div><div class="wr-text"><div class="wr-title">We own the upside.</div><div class="wr-body">Goodness Labs owns the brands, customer relationships, data and long-term value.</div></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEALTHCARE -->
+<div class="s dk">
+  <div class="w">
+    <div class="hc-top">
+      <div class="r">
+        <div class="eyebrow lt">From demand to care</div>
+        <div class="hc-h">Some brands need more than content and commerce.</div>
+      </div>
+      <div class="hc-sub r d2">Goodness Labs connects consumer demand to telehealth, prescription access and fulfilment through licensed partner infrastructure.</div>
+    </div>
+    <div class="hc-stats r d1">
+      <div class="ds"><div class="ds-n">50 states</div><div class="ds-l">Partner coverage across the United States.</div></div>
+      <div class="ds"><div class="ds-n">10,000+</div><div class="ds-l">Medications available through pharmacy partner networks.</div></div>
+      <div class="ds"><div class="ds-n">100,000</div><div class="ds-l">Daily prescription fulfilment capacity.</div></div>
+      <div class="ds"><div class="ds-n">50,000+</div><div class="ds-l">Weekly consultations through telehealth partners.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div class="s alt" id="team">
+  <div class="w">
+    <div class="eyebrow r">Leadership</div>
+    <h2 class="sh r d1" style="margin-bottom:52px;">The people behind the brands.</h2>
+    <div class="team-grid r d2">
+      <div class="tm-card founder">
+        <div class="tm-init">KP</div>
+        <div class="tm-name">Kanetha Phon</div>
+        <div class="tm-role">Founder & Innovation</div>
+        <a class="tm-email" href="mailto:kanetha@goodnesslabs.com">kanetha@goodnesslabs.com</a>
+      </div>
+      <div class="tm-card"><div class="tm-init">IS</div><div class="tm-name">Ian Stewart</div><div class="tm-role">Finance & Operations</div><a class="tm-email" href="mailto:ian@goodnesslabs.com">ian@goodnesslabs.com</a></div>
+      <div class="tm-card"><div class="tm-init">AD</div><div class="tm-name">Ashley De Souza</div><div class="tm-role">Technology & AI</div><a class="tm-email" href="mailto:ashley@goodnesslabs.com">ashley@goodnesslabs.com</a></div>
+      <div class="tm-card"><div class="tm-init">FM</div><div class="tm-name">Florencia Montes</div><div class="tm-role">Branding & Creative</div><a class="tm-email" href="mailto:florencia@goodnesslabs.com">florencia@goodnesslabs.com</a></div>
+      <div class="tm-card"><div class="tm-init">MN</div><div class="tm-name">Michael Noicos</div><div class="tm-role">Performance & Growth</div><a class="tm-email" href="mailto:michael@goodnesslabs.com">michael@goodnesslabs.com</a></div>
+      <div class="tm-card"><div class="tm-init">DL</div><div class="tm-name">Dylan Liu</div><div class="tm-role">Supply Chain</div><a class="tm-email" href="mailto:dylan@goodnesslabs.com">dylan@goodnesslabs.com</a></div>
+      <div class="tm-card"><div class="tm-init">SY</div><div class="tm-name">Samantha Yeaman</div><div class="tm-role">Customer Experience</div><a class="tm-email" href="mailto:samantha@goodnesslabs.com">samantha@goodnesslabs.com</a></div>
+      <div class="tm-card"><div class="tm-init">MX</div><div class="tm-name">Maximilian Lesek</div><div class="tm-role">AI Engineering</div><a class="tm-email" href="mailto:maximillian@goodnesslabs.com">maximillian@goodnesslabs.com</a></div>
+      <div class="tm-card"><div class="tm-init">OT</div><div class="tm-name">Oscar Tong <span class="cred">APD</span></div><div class="tm-role">Clinical Dietitian</div><a class="tm-email" href="mailto:oscar@goodnesslabs.com">oscar@goodnesslabs.com</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- INSIDER -->
+<div class="s near-blk" id="insider">
+  <div class="w">
+    <div class="ins-layout">
+      <div class="r">
+        <div class="ins-ey">Goodness Insider</div>
+        <div class="ins-h">The business of consumer health.</div>
+        <div class="ins-sub">Weekly insights on the companies, trends and lessons shaping consumer health, beauty and brand building.</div>
+        <div class="ins-chips">
+          <span class="ins-chip">Consumer trends</span>
+          <span class="ins-chip">Healthcare</span>
+          <span class="ins-chip">Brand building</span>
+          <span class="ins-chip">AI</span>
+          <span class="ins-chip">Retail</span>
+          <span class="ins-chip">Funding</span>
+          <span class="ins-chip">Ingredient science</span>
+        </div>
+        <div class="ins-pub">Published every Tuesday</div>
+      </div>
+      <div class="r d2">
+        <div class="ins-form-card">
+          <div class="ins-fh">Subscribe free</div>
+          <div class="ins-fs">Join founders, operators and investors following consumer health and beauty.</div>
+          <div id="ins-form">
+            <input class="ins-inp" type="text" placeholder="Your name"/>
+            <input class="ins-inp" type="email" placeholder="your@email.com"/>
+            <button class="ins-sbtn" onclick="subIns()">Subscribe free</button>
+            <div class="ins-fine">No spam. Unsubscribe any time.</div>
+          </div>
+          <div class="ins-ok" id="ins-ok">
+            <div class="ins-ok-h">You're subscribed.</div>
+            <div class="ins-ok-p">First issue lands this Tuesday.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WORK -->
+<div class="s" id="work">
+  <div class="w">
+    <div class="eyebrow r">Work with Goodness Labs</div>
+    <h2 class="sh r d1">Build with us.</h2>
+    <div class="work-grid">
+      <div class="wc r d1">
+        <div class="wc-ey">Founders</div>
+        <div class="wc-h">Building a consumer health, beauty or lifestyle brand with repeat demand?</div>
+        <div class="wc-b">We partner selectively with founders where Goodness Labs can add brand, commerce, AI, operations or capital support.</div>
+        <button class="wc-btn" onclick="openModal('acc')">Partner with us <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="wc r d2">
+        <div class="wc-ey">Investors</div>
+        <div class="wc-h">Interested in the Goodness Labs portfolio?</div>
+        <div class="wc-b">We are building a portfolio of consumer brands in high-retention categories across Australia, Singapore and the United States.</div>
+        <button class="wc-btn" onclick="openModal('enq')">Let's talk <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="wc r d3">
+        <div class="wc-ey">Talent</div>
+        <div class="wc-h">Want to build brands people actually use?</div>
+        <div class="wc-b">Join a lean team working across brand, product, AI, commerce, healthcare access and operations.</div>
+        <button class="wc-btn" onclick="openModal('enq')">Join us <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <div class="cta-inner r">
+    <div class="cta-h">Ready to build something<br>people keep <em>coming back to?</em></div>
+    <button class="btn-cream" onclick="openModal('enq')">Let's Talk</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-w">
+    <div class="foot-top">
+      <div>
+        <div class="foot-logo"><img src="data:image/avif;base64,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" alt="Goodness Labs" style="height:28px;width:auto;display:block;"/></div>
+        <div class="foot-tag">Building brands that become habits.</div>
+        <a class="foot-link" href="mailto:admin@goodnesslabs.com">admin@goodnesslabs.com</a>
+        <div class="foot-locs">Australia · Singapore · United States</div>
+      </div>
+      <div class="fc"><h4>Brands</h4><a href="https://ketopal.com" target="_blank">KetoPal</a><a href="https://femmyhealth.com" target="_blank">Femmy</a><a href="https://zeutral.com" target="_blank">Zeutral</a><a href="https://dermavol.com" target="_blank">Dermavol</a><a href="https://birchu.com" target="_blank">Birchu</a><a href="https://keto.com.au" target="_blank">Keto Australia</a></div>
+      <div class="fc"><h4>Company</h4><a href="#why">Why Goodness</a><a href="#team">Leadership</a><a href="#insider">Goodness Insider</a><a href="#work">Work with us</a></div>
+      <div class="fc"><h4>Work with us</h4><a href="#" onclick="openModal('acc');return false;">Founder partnerships</a><a href="#" onclick="openModal('enq');return false;">Investor enquiries</a><a href="#" onclick="openModal('enq');return false;">Careers</a></div>
+    </div>
+    <div class="foot-bot">
+      <span class="fcopy">© 2026 Goodness Pte Ltd. All rights reserved.</span>
+      <span class="fcopy">goodnesslabs.com</span>
+    </div>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div class="ov" id="modal-acc" onclick="if(event.target===this)closeModal('acc')">
+  <div class="modal">
+    <div class="mh lt">
+      <button class="mcl" onclick="closeModal('acc')">✕</button>
+      <div class="mey">Founder partnerships</div>
+      <div class="mt">Partner with Goodness Labs</div>
+      <div class="ms">We review every application personally and respond within five business days.</div>
+    </div>
+    <div id="acc-inner">
+      <div class="mb">
+        <div class="fg"><label class="fl">Full name</label><input type="text" placeholder="Jane Smith"/></div>
+        <div class="fg"><label class="fl">Email</label><input type="email" placeholder="jane@yourbrand.com"/></div>
+        <div class="fg"><label class="fl">Category</label><select><option value="">Select category</option><option>Supplements & nutrition</option><option>Skincare & beauty</option><option>Women's health</option><option>Metabolic health</option><option>Longevity & healthy ageing</option><option>Pet health</option><option>Food & beverages</option><option>Wellness lifestyle</option><option>Other</option></select></div>
+        <div class="fg"><label class="fl">Stage</label><select><option value="">Select stage</option><option>Idea — validated concept</option><option>Product in development</option><option>Have samples or prototype</option><option>Ready to launch</option><option>Already selling, looking to scale</option></select></div>
+        <div class="fg"><label class="fl">Tell us about your brand and why you are building it</label><textarea placeholder="What it does, who it serves and what makes it different."></textarea></div>
+      </div>
+      <div class="mf"><span class="mfn">Response within five business days</span><button class="mbtn acc" onclick="submitModal('acc')">Submit application</button></div>
+    </div>
+    <div class="mok" id="acc-ok"><div class="mok-ic">✓</div><div class="mok-h">Application received.</div><div class="mok-p">Kanetha will review your application personally. If there is a strong fit, she will be in touch.</div></div>
+  </div>
+</div>
+<div class="ov" id="modal-enq" onclick="if(event.target===this)closeModal('enq')">
+  <div class="modal">
+    <div class="mh lt">
+      <button class="mcl" onclick="closeModal('enq')">✕</button>
+      <div class="mey">Get in touch</div>
+      <div class="mt">Investors, partners & talent</div>
+      <div class="ms">Reach out directly. We keep it simple and respond quickly.</div>
+    </div>
+    <div id="enq-inner">
+      <div class="mb">
+        <div class="fg"><label class="fl">Name</label><input type="text" placeholder="Your name"/></div>
+        <div class="fg"><label class="fl">Email</label><input type="email" placeholder="you@company.com"/></div>
+        <div class="fg"><label class="fl">I'm reaching out about</label><select><option value="">Select</option><option>Investment opportunity</option><option>Strategic partnership</option><option>Joining the team</option><option>Brand acquisition</option><option>Media or press</option><option>Something else</option></select></div>
+        <div class="fg"><label class="fl">Message</label><textarea style="min-height:110px" placeholder="Tell us what is on your mind."></textarea></div>
+      </div>
+      <div class="mf"><span class="mfn">admin@goodnesslabs.com</span><button class="mbtn acc" onclick="submitModal('enq')">Send message</button></div>
+    </div>
+    <div class="mok" id="enq-ok"><div class="mok-ic">✓</div><div class="mok-h">Message received.</div><div class="mok-p">We will be in touch within two business days.</div></div>
+  </div>
+</div>
+
+<script>
+function openModal(id){document.getElementById('modal-'+id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById('modal-'+id).classList.remove('open');document.body.style.overflow='';}
+function submitModal(id){document.getElementById(id+'-inner').style.display='none';document.getElementById(id+'-ok').style.display='block';}
+function subIns(){document.getElementById('ins-form').style.display='none';document.getElementById('ins-ok').style.display='block';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal('acc');closeModal('enq');}});
+var obs=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -36px 0px'});
+document.querySelectorAll('.r').forEach(function(el){obs.observe(el);});
+window.addEventListener('scroll',function(){document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>20);});
+</script>
+</body>
+</html>
